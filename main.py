@@ -10,12 +10,9 @@ class BinaryHeap:
         self.title = title
 
     def get_high_priority(self):
-        return self.arr[1]
+        return self.arr[1] if len(self.arr) > 1 else None
     
     def heap_sort(self, method="up"):
-        """
-        Ordena o array de forma crescente e exibe o heap após cada troca.
-        """
         if method == "down":
             for i in range(len(self.arr) - 1, 1, -1):
                 self.arr[1], self.arr[i] = self.arr[i], self.arr[1]
@@ -67,12 +64,17 @@ class BinaryHeap:
             if index > 1:
                 parent_index = index // 2
                 T.add_edge(parent_index, index)
+
         labels = {i: self.arr[i] for i in range(1, len(self.arr))}
         pos = graphviz_layout(T, prog="dot")
+
         plt.clf()
         nx.draw(T, pos, labels=labels, with_labels=True, node_size=500, node_color=graph_color)
-        plt.title(title)
-        plt.draw() 
+        
+        high_priority = self.get_high_priority()
+        plt.title(f"{title} - Nó de maior prioridade: {high_priority}" if high_priority is not None else title)
+        
+        plt.draw()
         plt.pause(0.75)
 
 ######## Testes 1 ########
